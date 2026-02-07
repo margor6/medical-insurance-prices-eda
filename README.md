@@ -28,12 +28,17 @@ The analysis uses the personal health dataset, which contains data for **1,338 p
 * **Libraries:** `tidyverse`, `ggplot2`, `dplyr`, `knitr`.
 * **Format:** RMarkdown report generated to HTML.
 
-## 🔎 Key Findings
+## Key Findings
 * **Smoking Impact:** Being a smoker is the strongest predictor of higher insurance charges.
 * **Age Factor:** Charges generally increase with age, showing a linear trend for non-smokers.
 * **BMI Correlation:** High BMI significantly increases costs, but primarily for smokers (interaction effect).
 * **Data Limitations:** The analysis deduces that unobserved variables (likely chronic diseases or family's medical history) play a major role in pricing, creating distinct clusters in the data that simple demographic variables cannot fully explain.
 
 <img width="441" height="306" alt="image" src="https://github.com/user-attachments/assets/0a169fd8-5fa8-4821-b02d-8c52893b3307" />
+
+# How to View
+
+You can view the original report directly on GitHub:
+**[Click here to view the Analysis (eda.md)](./eda.md)**
 
 ## Author: Marcin Górski

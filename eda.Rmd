@@ -1,0 +1,156 @@
+---
+title: "Medical Insurance Prices - EDA"
+author: "Marcin Górski"
+output: html_document
+date: "2026-01-15"
+---
+
+## Wstępny ogląd danych
+
+```{r podglad, include = F}
+
+library(psych)
+library(ggplot2)
+library(tidyverse)
+
+medins <- read.csv("H:/WdAD/EDA/medical-charges.csv")
+
+head(medins, 3)
+
+tail(medins, 3)
+
+str(medins)
+
+medins$sex <- as.factor(medins$sex)
+
+medins$smoker <- as.factor(medins$smoker)
+
+medins$region <- as.factor(medins$region)
+
+psych::describe(medins)
+
+
+```
+
+Zestaw składa się z 7 kolumn i pokazuje ceny ubezpieczeń dla konkretnych osób. Do danych o tych indywiduach należą: wiek, BMI, liczba dzieci (**dane numeryczne**), oraz płeć, czy są palące i region (na potrzeby projektu traktowane jako **kategoryczne**). W analizie skupię się na tym, czy i w jakim stopniu zmienne opisujące osoby ubezpieczane wpływają na wysokość płaconych przez nich składek.
+
+## Braki danych
+
+```{r braki}
+
+library(mice)
+
+md.pattern(medins)
+
+```
+
+Autor zestawu danych nie kłamał - nie mamy żadnych braków.
+
+## Analiza zmiennych, wartości odstające
+
+```{r wstepna_analiza}
+
+#kategoryczne
+
+medins %>%
+  ggplot() +
+  geom_bar(aes(x=sex),
+           color = "darkblue", fill="lightblue") +
+  theme_bw(base_size=14) +
+  labs(title="Płeć")
+
+
+medins %>%
+  ggplot() +
+  geom_bar(aes(x=smoker),
+           color = "darkblue", fill="lightblue") +
+  theme_bw(base_size=14) +
+  labs(title="Palący")
+
+medins %>%
+  ggplot() +
+  geom_bar(aes(x=region),
+           color = "darkblue", fill="lightblue") +
+  theme_bw(base_size=14) +
+  labs(title="Region")
+
+table(medins[,c("sex", "smoker")])
+
+#ilosciowe
+
+medins %>%
+  ggplot() +
+  geom_histogram(aes(x = age), 
+                 bins = 10,
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "Wiek")
+
+quantile(medins$age, 
+         probs = c(0, 0.01, 0.25, 0.5, 0.75, 0.95, 0.99, 1))
+
+medins %>%
+  ggplot() +
+  geom_histogram(aes(x = bmi), 
+                 bins = 10,
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "BMI")
+
+quantile(medins$bmi, 
+         probs = c(0, 0.01, 0.25, 0.5, 0.75, 0.95, 0.99, 1))
+
+medins %>%
+  ggplot() +
+  geom_boxplot(aes(x = bmi),
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "BMI")
+
+medins %>%
+  ggplot() +
+  geom_bar(aes(x=children),
+           color = "darkgreen", fill="lightgreen") +
+  theme_bw(base_size=14) +
+  labs(title="Liczba dzieci")
+
+quantile(medins$children, 
+         probs = c(0, 0.01, 0.25, 0.5, 0.75, 0.95, 0.99, 1))
+
+medins %>%
+  ggplot() +
+  geom_boxplot(aes(x = children),
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "Liczba dzieci")
+
+medins %>%
+  ggplot() +
+  geom_histogram(aes(x = charges), 
+                 bins = 10,
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "Opłaty")
+
+medins %>%
+  ggplot() +
+  geom_boxplot(aes(x = charges),
+                 color = "darkgreen", fill = "lightgreen") +
+  theme_light(base_size = 14) +
+  labs(title = "Opłaty")
+
+quantile(medins$charges, 
+         probs = c(0, 0.01, 0.25, 0.5, 0.75, 0.95, 0.99, 1))
+
+library(corrplot)
+
+cor = cor(medins[,c("age", "bmi", "children", "charges")], 
+          method = "spearman")
+
+corrplot(cor, method = "square", type = "upper")
+
+```
+
+Płeć i regiony mają w przybliżeniu równą ilość obserwacji. Osób palących nasz zbiór zawiera zdecydowanie mniej, ale wciąż nie są to przypadki jednostkowe. Przy okazji zauważamy, że nieco większy jest odsetek palących mężczyzn `medins$`niż kobiet. Struktura wieku jest w przybliżeniu jednostajna, a wartości odstające nie występują. Histogram BMI przypomina rozkład normalny, a wykres pudełkowy wskazuje na nieliczne wartości odstające z prawej strony, natomiast osób przekraczających poziom 41 jest ledwo 5%.Rozkład dzietności jest silnie skośny - jedynie 5% osób ma więcej dzieci niż 3, a wartość maksymalna to 5. Na koniec opłaty - tutaj histogram również jest prawostronnie skośny, a wykres pudełkowy ujawnia wartości odstające. Jedynie 1% próby płaci powyżej 48,5 tysiąca, a wartość maksymalna to aż blisko 64 tysiące.
+
+Macierz korelacji ujawnia **wyraźny związek wieku i wysokości opłat**. Powiązania między pozostałymi zmiennymi ilościowymi są znacznie wątlejsze, natomiast nie widać, żeby jakiekolwiek zmienne były skorelowane ujemnie.

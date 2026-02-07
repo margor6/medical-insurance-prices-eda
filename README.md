@@ -6,7 +6,7 @@
 
 ## Overview
 
-The project presents an Exploratory Data Analysis (EDA) of medical insurance prices using **RMarkdown**. The goal was to investigate how various factors, such as age, BMI, smoking status, and region, **affect insurance charges**. The report is written in polish.
+The project presents an Exploratory Data Analysis (EDA) of medical insurance prices using **RMarkdown**. The goal was to investigate how various factors, such as age, BMI, smoking status, and region, **affect insurance charges**. The report is written in Polish.
 
 The analysis discovers significant correlations, particularly the impact of lifestyle habits on medical costs, and discusses limitations within the dataset (e.g., lack of medical history).
 

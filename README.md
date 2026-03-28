@@ -25,7 +25,7 @@ The analysis uses the personal health dataset, which contains data for **1,338 p
 
 ## Tech
 * **Core:** R 
-* **Libraries:** `tidyverse`, `ggplot2`, `dplyr`, `knitr`.
+* **Libraries:** `tidyverse`, `ggplot2`, `psych`, `mice`, `corrplot`, `gridExtra`, `nortest`, `car`, `PMCMRplus`.
 * **Format:** RMarkdown report generated to HTML.
 
 ## Key Findings
@@ -39,7 +39,7 @@ The analysis uses the personal health dataset, which contains data for **1,338 p
 
 # How to View
 
-You can view the original report directly on GitHub:
+You can view the report directly on GitHub:
 **[Click here to view the Analysis](https://margor6.github.io/medical-insurance-prices-eda/medical_insurance_eda.html)**
 
 ## Author: Marcin Górski

@@ -34,7 +34,8 @@ The analysis uses the personal health dataset, which contains data for **1,338 p
 * **BMI Correlation:** High BMI significantly increases costs, but primarily for smokers (interaction effect).
 * **Data Limitations:** The analysis deduces that unobserved variables (likely chronic diseases or family's medical history) play a major role in pricing, creating distinct clusters in the data that simple demographic variables cannot fully explain.
 
-<img width="441" height="306" alt="image" src="https://github.com/user-attachments/assets/0a169fd8-5fa8-4821-b02d-8c52893b3307" />
+<img width="1083" height="507" alt="image" src="https://github.com/user-attachments/assets/c1fc5b85-715b-4416-9a0a-f64b657b5012" />
+
 
 # How to View
 
